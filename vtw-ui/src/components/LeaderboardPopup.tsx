@@ -1,4 +1,5 @@
 import React from 'react';
+import tokenIcon from '../assets/token.png'; // Adjust the import path as necessary
 
 interface UserProfile {
   name: string;
@@ -37,7 +38,10 @@ const LeaderboardPopup: React.FC<LeaderboardPopupProps> = ({ isOpen, onClose, us
                   className="w-28 h-28 rounded-full object-cover mb-2 border-2 border-[#333333]"
                 />
                 <h3 className="font-bold text-center text-3xl">{user.name}</h3>
-                <p className="text-2xl font-semibold text-center">{user.tokens} tokens</p>
+                <p className="text-2xl font-semibold text-center flex items-center">
+                  <img src={tokenIcon} alt="Token" className="w-6 h-6 mr-2" />
+                  {user.tokens} tokens
+                </p>
                 <p className="text-2xl text-gray-600 text-center">{user.title}</p>
                 <p className="text-2xl text-center">{user.company}</p>
               </div>
