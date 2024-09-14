@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Filters from '../filters/Filters';
 import EventCard from '../events/EventCard';
 import { mockEventCategories, mockEvents } from '../../mock/events';
+import EventsList from '../events/EventsList';
 
 // Replace with your actual Mapbox access token
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibmFtLW0iLCJhIjoiY20xMmllc3Z6MGQ3czJrcG14a3Z4dzdmeCJ9._RqdUZgr1-9VteLVKNBftA';
@@ -15,17 +16,13 @@ const VANCOUVER_BOUNDS = [
   [-122.9981, 49.3168]  // Northeast coordinates
 ];
 
-const eventCategories = mockEventCategories;
-
-const events = mockEvents;
-
 const MapComponent = () => {
   const [popupInfo, setPopupInfo] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const filteredEvents = selectedCategory
-    ? events.filter(event => event.category === selectedCategory)
-    : events;
+    ? mockEvents.filter(event => event.category === selectedCategory)
+    : mockEvents;
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -46,18 +43,7 @@ const MapComponent = () => {
         maxBounds={VANCOUVER_BOUNDS}
       >
         <NavigationControl />
-        {filteredEvents.map((event) => (
-          <Marker
-            key={event.id}
-            longitude={event.coordinates[0]}
-            latitude={event.coordinates[1]}
-            color={eventCategories[event.category].color}
-            onClick={e => {
-              e.originalEvent.stopPropagation();
-              setPopupInfo(event);
-            }}
-          />
-        ))}
+        <EventsList filteredEvents={filteredEvents} setPopupInfo={setPopupInfo} />
         {popupInfo && (
           <Popup
             longitude={popupInfo.coordinates[0]}
