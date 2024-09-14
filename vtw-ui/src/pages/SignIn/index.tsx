@@ -1,50 +1,144 @@
-import React, { useState } from 'react';
+// SignIn.tsx
+import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../../components/ui/form";
+import { Button, InputIcon } from "../../components";
+import { FiMail, FiLock } from "react-icons/fi";
+import { Input } from "../../components/ui/input";
+import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
-const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const formSchema = z.object({
+  email: z.string().email({
+    message: "The email must follow the pattern: email@example.com.",
+  }),
+  password: z.string().min(5, {
+    message: "The password must have at least 5 characters.",
+  }),
+});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onLogin(username, password);
+const SignIn: React.FC = () => {
+  const [loading, setIsLoading] = useState(false);
+  const { signIn } = useAuth(); // Destructure the signIn function from AuthContext
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  // Function to handle form submission
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+    try {
+      // Use the signIn function from AuthContext to handle authentication
+      await signIn({ email: values.email, password: values.password });
+
+      // Optionally, navigate to another page or show a success message
+      alert("Login successful!");
+    } catch (error) {
+      console.log("An error occurred:", error);
+      alert("Login failed. Please check your credentials and try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="px-8 py-6 mt-4 text-left bg-white shadow-lg">
-        <h3 className="text-2xl font-bold text-center">Login to your account</h3>
-        <form onSubmit={handleSubmit}>
-          <div className="mt-4">
-            <div>
-              <label className="block" htmlFor="username">Username</label>
-              <input
-                type="text"
-                placeholder="Username"
-                className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mt-4">
-              <label className="block" htmlFor="password">Password</label>
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="flex items-baseline justify-between">
-              <button className="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900" type="submit">Login</button>
-            </div>
-          </div>
-        </form>
+    <div className="flex justify-center items-center h-screen bg-secondary">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+        <h1 className="text-4xl font-semibold text-primary mb-6">
+          Sign in to your account
+        </h1>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-3"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex">
+                      <InputIcon
+                        icon={FiMail}
+                        className="bg-primary border-black text-white"
+                      />
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        className="h-14 text-base border border-l-0 bg-gray-200 text-black border-black placeholder-black rounded-r-md"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex">
+                      <InputIcon
+                        icon={FiLock}
+                        className="bg-primary border-black text-white"
+                      />
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        {...field}
+                        className="h-14 text-base border border-l-0 bg-gray-200 text-black border-black placeholder-black rounded-r-md"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              disabled={loading}
+              className="w-full h-14 text-base bg-primary text-primary-foreground hover:bg-secondary hover:text-primary border border-primary transition-colors duration-300"
+              type="submit"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 animate-spin" />
+                  Please wait
+                </>
+              ) : (
+                "Sign In"
+              )}
+            </Button>
+          </form>
+          <Link
+            to={"/signup"}
+            className="text-primary mt-6 underline font-semibold text-end"
+          >
+            I don't have an account
+          </Link>
+        </Form>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignIn;

@@ -51,15 +51,15 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   });
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
-    const response = await api.post("/login", { email, password });
-    const { token, user } = response.data;
+    const response = await api.post("/auth/local", { identifier: email, password });
+    const { jwt, user } = response.data;
 
-    localStorage.setItem("@AnatiQuanti:token", token);
+    localStorage.setItem("@AnatiQuanti:token", jwt);
     localStorage.setItem("@AnatiQuanti:user", JSON.stringify(user));
 
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
 
-    setUser({ token, user });
+    setUser({ token: jwt, user });
   }, []);
 
   const signOut = useCallback(() => {
