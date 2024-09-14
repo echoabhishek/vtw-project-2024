@@ -1,11 +1,11 @@
 // EventsList.tsx
 import { Marker } from 'react-map-gl';
-import { mockEventCategories, mockEvents } from '../../mock/events';
+import { mockEventCategories } from '../../mock/events';
 
-const EventsList = ({ setPopupInfo }) => {
+const EventsList = ({ setPopupInfo, filteredEvents }) => {
   return (
     <>
-      {mockEvents.map((event) => (
+      {filteredEvents.map((event) => (
         <Marker
           key={event.id}
           longitude={event.coordinates[0]}
