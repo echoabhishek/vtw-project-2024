@@ -4,6 +4,9 @@ import Login from './pages/SignIn/index';
 import MapComponent from './components/map/MapComponent';
 import EventPage from './pages/Events/EventPage';
 import UserProfile from './pages/Users/UserProfile';
+import MyQuestsPage from './pages/MyQuests/MyQuestsPage';
+import LeaderboardPage from './pages/Leaderboard/LeaderboardPage';
+import FloatingTabBar from './components/FloatingTabBar';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -58,7 +61,28 @@ const App = () => {
               )
             } 
           />
+          <Route 
+            path="/my-quests" 
+            element={
+              isAuthenticated ? (
+                <MyQuestsPage />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/leaderboard" 
+            element={
+              isAuthenticated ? (
+                <LeaderboardPage />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            } 
+          />
         </Routes>
+        {isAuthenticated && <FloatingTabBar />}
       </div>
     </Router>
   );
