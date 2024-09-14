@@ -17,8 +17,8 @@ const Banner: React.FC = () => {
 
   return (
     // <div className="bg-white shadow-md py-4 px-8 mb-6">
-    <div className='border border-[#333333] w-[1440px] h-[157px] bg-[#f3fe74]'>
-      <div className="flex justify-between items-center">
+    <div className='border border-[#333333] bg-[#f3fe74]'>
+      <div className="flex justify-evenly items-center">
         <h1 className="font-extrabold text-[55px] text-[#333333]">
             vanquest
         </h1>
