@@ -23,10 +23,17 @@ interface SignInCredentials {
   password: string;
 }
 
+interface UpdateProfileData {
+  name?: string;
+  username?: string;
+  email?: string;
+}
+
 type AuthContextType = {
   user: AuthState;
   signIn: (credentials: SignInCredentials) => Promise<void>;
   signUp: (user: User, navigate: (path: string) => void) => Promise<void>;
+  updateProfile: (data: UpdateProfileData) => Promise<void>;
   signOut: () => void;
 };
 
@@ -90,6 +97,22 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     }
   }, []);
 
+  const updateProfile = useCallback(async (data: UpdateProfileData) => {
+    try {
+      // Make a PUT request to update the user's profile using the /users/me endpoint
+      const response = await api.put("/users/me", data);
+
+      const updatedUser = response.data;
+
+      // Update the user state with the updated profile information
+      localStorage.setItem("@AnatiQuanti:user", JSON.stringify(updatedUser));
+      setUser((prev) => ({ ...prev, user: updatedUser }));
+    } catch (error) {
+      console.error("Profile update failed:", error.response);
+      throw new Error("Profile update failed. Please try again.");
+    }
+  }, []);
+
   const signOut = useCallback(() => {
     localStorage.removeItem("@AnatiQuanti:token");
     localStorage.removeItem("@AnatiQuanti:admin");
@@ -104,6 +127,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         signIn,
         signUp,
         signOut,
+        updateProfile,
       }}
     >
       {children}
