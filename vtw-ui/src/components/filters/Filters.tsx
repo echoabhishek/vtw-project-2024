@@ -3,16 +3,20 @@
 import React from 'react';
 import ProductIcon from '../icons/ProductIcon';
 
-const Filters: React.FC = () => {
-    const handleFilterClick = (filterType: string) => {
-        console.log(`Filter applied: ${filterType}`);
-        // Implement filter logic here
+interface FiltersProps {
+    onFilterChange: (category: string) => void;
+}
+
+const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
+    const handleFilterClick = (category: string) => {
+        console.log(`Filter applied: ${category}`);
+        onFilterChange(category);
     };
     return (
         <div
             className="flex justify-between items-center relative w-[999px] bg-transparent">
             <button
-                onClick={() => handleFilterClick('Design')}
+                onClick={() => handleFilterClick('DESIGN')}
                 className="rounded-[66px] border border-[#333333] px-8 py-[21px] flex gap-4 justify-center items-center relative h-10 bg-[#ff9cf5]">
                 <svg
                 width="24"
@@ -28,14 +32,14 @@ const Filters: React.FC = () => {
             </button>
 
             <button 
-                onClick={() => handleFilterClick('Product')}
+                onClick={() => handleFilterClick('PRODUCT')}
                 className="rounded-[66px] border border-[#333333] px-8 py-[21px] flex gap-4 justify-center items-center relative w-[179px] h-10 bg-[#afbeff]">
                     <ProductIcon/>
                     <h4 className="text-2xl text-[#333333]">Product</h4>
             </button>
             
             <button
-                onClick={() => handleFilterClick('Dev')}
+                onClick={() => handleFilterClick('DEV')}
                 className="rounded-[66px] border border-[#333333] px-8 py-[21px] flex gap-4 justify-center items-center relative h-10 bg-[#bfadf4]">
                 <svg
                 width="31"
@@ -51,7 +55,7 @@ const Filters: React.FC = () => {
             </button>
 
             <button
-                onClick={() => handleFilterClick('Trending')}
+                onClick={() => handleFilterClick('TRENDING')}
                 className="rounded-[66px] border border-[#333333] px-8 py-[21px] flex gap-4 justify-center items-center relative h-10 bg-[#fbabb6]">
                 <svg
                 width="25"
@@ -78,7 +82,7 @@ const Filters: React.FC = () => {
             </button>
 
             <button
-                onClick={() => handleFilterClick('Mentorship')}
+                onClick={() => handleFilterClick('MENTORSHIP')}
                 className="rounded-[66px] border border-[#333333] px-8 py-[21px] flex gap-4 justify-center items-center relative h-10 bg-[#95f9ab]">
                 <svg
                 width="24"
