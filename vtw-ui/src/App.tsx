@@ -4,6 +4,7 @@ import Login from './pages/SignIn/index';
 import MapComponent from './components/map/MapComponent';
 import EventPage from './pages/Events/EventPage';
 import UserProfile from './pages/Users/UserProfile';
+import DashboardLayout from './components/layout/DashboardLayout';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,7 +33,9 @@ const App = () => {
             path="/map" 
             element={
               isAuthenticated ? (
-                <MapComponent />
+                <DashboardLayout>
+                    <MapComponent />
+                </DashboardLayout>
               ) : (
                 <Navigate to="/" replace />
               )
