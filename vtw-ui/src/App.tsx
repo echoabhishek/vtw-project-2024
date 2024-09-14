@@ -1,67 +1,17 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Login from './pages/SignIn/index';
-import MapComponent from './components/map/MapComponent';
-import EventPage from './pages/Events/EventPage';
-import UserProfile from './pages/Users/UserProfile';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 
-const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+import Routes from "./routes";
 
-  const handleLogin = (username, password) => {
-    if (username === 'admin' && password === 'admin') {
-      setIsAuthenticated(true);
-    }
-  };
-
+function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-100">
-        <Routes>
-          <Route 
-            path="/" 
-            element={
-              isAuthenticated ? (
-                <Navigate to="/map" replace />
-              ) : (
-                <Login onLogin={handleLogin} />
-              )
-            } 
-          />
-          <Route 
-            path="/map" 
-            element={
-              isAuthenticated ? (
-                <MapComponent />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            } 
-          />
-          <Route 
-            path="/event/:id" 
-            element={
-              isAuthenticated ? (
-                <EventPage />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            } 
-          />
-          <Route 
-            path="/profile" 
-            element={
-              isAuthenticated ? (
-                <UserProfile />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            } 
-          />
-        </Routes>
-      </div>
-    </Router>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </AuthProvider>
   );
-};
+}
 
 export default App;

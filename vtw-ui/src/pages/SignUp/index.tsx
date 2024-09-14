@@ -1,12 +1,150 @@
-import React from "react";
+// SignUp.tsx
+import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../../components/ui/form";
+import { Button, InputIcon } from "../../components";
+import { FiMail, FiLock, FiUser } from "react-icons/fi";
+import { Input } from "../../components/ui/input";
+import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const formSchema = z.object({
+  username: z.string().min(2, {
+    message: "Username must have at least 2 characters.",
+  }),
+  email: z.string().min(2, {
+    message: "The email must follow the pattern: email@example.com.",
+  }),
+  password: z.string().min(5, {
+    message: "The password must have at least 5 characters.",
+  }),
+});
 
 const SignUp: React.FC = () => {
+  const [loading, setIsLoading] = useState(false);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    try {
+      const { username, email, password } = values;
+      console.log(username, email, password);
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
-    <div className="h-screen w-screen flex">
-      <div className="h-screen w-full md:w-1/2 bg-gray-100 flex items-center justify-center">
-        <h1 className="">SignUp</h1>
+    <div className="flex justify-center items-center h-screen bg-secondary">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+        <h1 className="text-4xl font-semibold text-primary mb-6">
+          Create your account
+        </h1>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex">
+                      <InputIcon icon={FiUser} className="bg-primary border-black text-white" />
+                      <Input
+                        placeholder="Username"
+                        {...field}
+                        className="h-14 text-base border border-l-0 bg-gray-200 text-black border-black placeholder-black rounded-r-md"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex">
+                      <InputIcon icon={FiMail} className="bg-primary border-black text-white" />
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        className="h-14 text-base border border-l-0 bg-gray-200 text-black border-black placeholder-black rounded-r-md"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex">
+                      <InputIcon icon={FiLock} className="bg-primary border-black text-white" />
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        {...field}
+                        className="h-14 text-base border border-l-0 bg-gray-200 text-black border-black placeholder-black rounded-r-md"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              disabled={loading}
+              className="w-full h-14 text-base bg-primary text-primary-foreground hover:bg-secondary hover:text-primary border border-primary transition-colors duration-300"
+              type="submit"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 animate-spin" />
+                  Please wait
+                </>
+              ) : (
+                "Sign Up"
+              )}
+            </Button>
+          </form>
+          <Link
+            to={"/"}
+            className="text-primary mt-6 underline font-semibold text-end"
+          >
+            Already have an account?
+          </Link>
+        </Form>
       </div>
-      <div className="hidden md:flex flex-col items-center justify-center w-1/2 h-full bg-main overflow-x-hidden overflow-y-hidden"></div>
     </div>
   );
 };
