@@ -7,11 +7,11 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ handleCategoryChange, children }) => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Persistent Banner */}
-      <Banner />
+      <Banner handleCategoryChange={handleCategoryChange}/>
 
       {/* Page Content */}
       <div className="p-4">

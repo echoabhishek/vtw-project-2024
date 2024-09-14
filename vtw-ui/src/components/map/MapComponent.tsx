@@ -30,17 +30,17 @@ const events = [
   { id: 5, name: 'Mentor', category: 'MENTORSHIP', coordinates: [-123.1300, 49.2764] },
 ];
 
-const MapComponent = () => {
+const MapComponent = ({selectedCategory}) => {
   const [popupInfo, setPopupInfo] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('');
+//   const [selectedCategory, setSelectedCategory] = useState('');
 
   const filteredEvents = selectedCategory
     ? events.filter(event => event.category === selectedCategory)
     : events;
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-  };
+//   const handleCategoryChange = (category) => {
+//     setSelectedCategory(category);
+//   };
 
   return (
     <div style={{ width: '100%', height: '100vh' }}>
