@@ -2,15 +2,19 @@ import React, { createContext, useCallback, useContext, useState } from "react";
 import { api } from "../services/api";
 
 type User = {
-  id: string;
   name: string;
   username: string;
   email: string;
   password: string;
 };
 
+type AuthUser = {
+  id: string;
+} & User;
+
+
 interface AuthState {
-  user: User;
+  user: AuthUser;
   token: string;
 }
 
@@ -19,9 +23,17 @@ interface SignInCredentials {
   password: string;
 }
 
+interface UpdateProfileData {
+  name?: string;
+  username?: string;
+  email?: string;
+}
+
 type AuthContextType = {
   user: AuthState;
   signIn: (credentials: SignInCredentials) => Promise<void>;
+  signUp: (user: User, navigate: (path: string) => void) => Promise<void>;
+  updateProfile: (data: UpdateProfileData) => Promise<void>;
   signOut: () => void;
 };
 
@@ -62,6 +74,45 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     setUser({ token: jwt, user });
   }, []);
 
+  const signUp: AuthContextType["signUp"] = useCallback(async ({ username, email, password }, navigate) => {
+    try {
+      const response = await api.post("/auth/local/register", {
+        username,
+        email,
+        password,
+      });
+
+      const { jwt, user } = response.data;
+
+      localStorage.setItem("@AnatiQuanti:token", jwt);
+      localStorage.setItem("@AnatiQuanti:user", JSON.stringify(user));
+
+      api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
+
+      setUser({ token: jwt, user });
+      navigate("/");
+    } catch (error) {
+      console.error("Registration failed:", error.response);
+      throw new Error("Registration failed. Please check your inputs and try again.");
+    }
+  }, []);
+
+  const updateProfile = useCallback(async (data: UpdateProfileData) => {
+    try {
+      // Make a PUT request to update the user's profile using the /users/me endpoint
+      const response = await api.put("/users/me", data);
+
+      const updatedUser = response.data;
+
+      // Update the user state with the updated profile information
+      localStorage.setItem("@AnatiQuanti:user", JSON.stringify(updatedUser));
+      setUser((prev) => ({ ...prev, user: updatedUser }));
+    } catch (error) {
+      console.error("Profile update failed:", error.response);
+      throw new Error("Profile update failed. Please try again.");
+    }
+  }, []);
+
   const signOut = useCallback(() => {
     localStorage.removeItem("@AnatiQuanti:token");
     localStorage.removeItem("@AnatiQuanti:admin");
@@ -74,7 +125,9 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       value={{
         user,
         signIn,
+        signUp,
         signOut,
+        updateProfile,
       }}
     >
       {children}

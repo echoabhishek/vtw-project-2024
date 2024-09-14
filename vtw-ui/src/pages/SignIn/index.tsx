@@ -17,6 +17,7 @@ import { Input } from "../../components/ui/input";
 import { Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { Toastr } from "../../components/toastr";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -29,7 +30,7 @@ const formSchema = z.object({
 
 const SignIn: React.FC = () => {
   const [loading, setIsLoading] = useState(false);
-  const { signIn } = useAuth(); // Destructure the signIn function from AuthContext
+  const { signIn } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,10 +48,10 @@ const SignIn: React.FC = () => {
       await signIn({ email: values.email, password: values.password });
 
       // Optionally, navigate to another page or show a success message
-      alert("Login successful!");
+      Toastr.success("Login successful!");
     } catch (error) {
       console.log("An error occurred:", error);
-      alert("Login failed. Please check your credentials and try again.");
+      Toastr.error("Login failed. Please check your credentials and try again.");
     } finally {
       setIsLoading(false);
     }

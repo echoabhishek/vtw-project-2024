@@ -15,7 +15,9 @@ import { Button, InputIcon } from "../../components";
 import { FiMail, FiLock, FiUser } from "react-icons/fi";
 import { Input } from "../../components/ui/input";
 import { Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import { Toastr } from "../../components/toastr";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -31,6 +33,8 @@ const formSchema = z.object({
 
 const SignUp: React.FC = () => {
   const [loading, setIsLoading] = useState(false);
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,17 +45,17 @@ const SignUp: React.FC = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const { username, email, password } = values;
-      console.log(username, email, password);
+      await signUp(data, navigate);
+      Toastr.success("Registration successful!");
     } catch (error) {
-      alert(error);
+      Toastr.error(error.message);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex justify-center items-center h-screen bg-secondary">
