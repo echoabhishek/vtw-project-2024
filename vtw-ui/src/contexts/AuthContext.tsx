@@ -2,15 +2,19 @@ import React, { createContext, useCallback, useContext, useState } from "react";
 import { api } from "../services/api";
 
 type User = {
-  id: string;
   name: string;
   username: string;
   email: string;
   password: string;
 };
 
+type AuthUser = {
+  id: string;
+} & User;
+
+
 interface AuthState {
-  user: User;
+  user: AuthUser;
   token: string;
 }
 
@@ -22,6 +26,7 @@ interface SignInCredentials {
 type AuthContextType = {
   user: AuthState;
   signIn: (credentials: SignInCredentials) => Promise<void>;
+  signUp: (user: User, navigate: (path: string) => void) => Promise<void>;
   signOut: () => void;
 };
 
@@ -62,6 +67,29 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     setUser({ token: jwt, user });
   }, []);
 
+  const signUp: AuthContextType["signUp"] = useCallback(async ({ username, email, password }, navigate) => {
+    try {
+      const response = await api.post("/auth/local/register", {
+        username,
+        email,
+        password,
+      });
+
+      const { jwt, user } = response.data;
+
+      localStorage.setItem("@AnatiQuanti:token", jwt);
+      localStorage.setItem("@AnatiQuanti:user", JSON.stringify(user));
+
+      api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
+
+      setUser({ token: jwt, user });
+      navigate("/");
+    } catch (error) {
+      console.error("Registration failed:", error.response);
+      throw new Error("Registration failed. Please check your inputs and try again.");
+    }
+  }, []);
+
   const signOut = useCallback(() => {
     localStorage.removeItem("@AnatiQuanti:token");
     localStorage.removeItem("@AnatiQuanti:admin");
@@ -74,6 +102,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       value={{
         user,
         signIn,
+        signUp,
         signOut,
       }}
     >
