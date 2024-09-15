@@ -13,6 +13,7 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 const AppRoutes: React.FC = () => {
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
+
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
@@ -26,7 +27,10 @@ const AppRoutes: React.FC = () => {
         <Route 
           path="/map" 
           element={
-            <DashboardLayout handleCategoryChange={handleCategoryChange}>
+            <DashboardLayout 
+                selectedCategory={selectedCategory} 
+                handleCategoryChange={handleCategoryChange}
+            >
               <MapComponent selectedCategory={selectedCategory}/>
             </DashboardLayout>}
         />

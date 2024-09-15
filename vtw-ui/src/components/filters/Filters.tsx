@@ -4,13 +4,18 @@ import React from 'react';
 import ProductIcon from '../icons/ProductIcon';
 
 interface FiltersProps {
+    selectedCategory: string;
     onFilterChange: (category: string) => void;
 }
 
-const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
+const Filters: React.FC<FiltersProps> = ({ selectedCategory, onFilterChange }) => {
     const handleFilterClick = (category: string) => {
         console.log(`Filter applied: ${category}`);
-        onFilterChange(category);
+        if (selectedCategory == category) {
+            onFilterChange('');
+        } else {
+            onFilterChange(category);      
+        }
     };
     return (
         <div
