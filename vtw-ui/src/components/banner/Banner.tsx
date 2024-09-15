@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import SearchBar from '../search/SearchBar';
 import Filters from '../filters/Filters';
 
-const Banner: React.FC = ({handleCategoryChange}) => {
+const Banner: React.FC = ({selectedCategory, handleCategoryChange}) => {
 //   const [selectedFilter, setSelectedFilter] = useState('all');
 
   const handleSearch = (query: string) => {
@@ -22,9 +22,11 @@ const Banner: React.FC = ({handleCategoryChange}) => {
         <h1 className="font-extrabold text-[55px] text-[#333333]">
             [van]quest
         </h1>
-        <div className="flex flex-col items-center p-4 space-x-4">
+        <div className="flex flex-col items-end p-4 space-x-4 space-y-4">
             <SearchBar onSearch={handleSearch}/>
-            <Filters onFilterChange={handleCategoryChange}/>   
+            <Filters 
+                selectedCategory={selectedCategory}
+                onFilterChange={handleCategoryChange}/>   
         </div>
       </div>
     </div>
