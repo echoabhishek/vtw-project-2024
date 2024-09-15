@@ -14,9 +14,13 @@ import profileImage from "../assets/profilepic.png"; // Add your profile image p
 
 const AppRoutes: React.FC = () => {
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [isProfileOpen, setIsProfileOpen] = useState(false); // State for profile popup
   const [tokenCount, setTokenCount] = useState(100); // Example initial value
 
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+  };
   return (
     <div className="min-h-screen bg-gray-100 relative">
       <Routes>
@@ -27,8 +31,11 @@ const AppRoutes: React.FC = () => {
         <Route 
           path="/map" 
           element={
-            <DashboardLayout>
-              <MapComponent />
+            <DashboardLayout 
+                selectedCategory={selectedCategory} 
+                handleCategoryChange={handleCategoryChange}
+            >
+              <MapComponent selectedCategory={selectedCategory}/>
             </DashboardLayout>}
         />
         <Route 
