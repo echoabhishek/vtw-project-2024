@@ -91,7 +91,7 @@ const Filters: React.FC<FiltersProps> = ({ selectedCategory, onFilterChange }) =
                 viewBox="0 0 25 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_25_2694)">
+                <g clipPath="url(#clip0_25_2694)">
                     <path
                     d="M1.99798 16.432L0.583984 15.018L7.65498 7.94696L14.019 14.311L18.262 10.068L16.519 8.32596L23.211 6.53296L21.418 13.225L19.676 11.483L14.019 17.139L7.65498 10.775L1.99798 16.432Z"
                     fill="#333333" />

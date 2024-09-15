@@ -23,8 +23,8 @@ const EventCard = ({ events, onClose }) => {
       </div>
 
       <div className="max-w-xs max-h-64 overflow-y-auto pr-2">
-        {events.map((event) => (
-          <EventItem event={event} expandedEvents={expandedEvents} toggleExpand={toggleExpand} />
+        {events.map((event, idx) => (
+          <EventItem key={String(idx)} event={event} expandedEvents={expandedEvents} toggleExpand={toggleExpand} />
         ))}
       </div>
     </div>
