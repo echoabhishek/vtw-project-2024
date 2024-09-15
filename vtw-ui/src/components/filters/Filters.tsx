@@ -1,7 +1,8 @@
 // src/components/Filters.tsx
 
-import React from 'react';
-import ProductIcon from '../icons/ProductIcon';
+import React, { useState } from 'react';
+import ProductFilterIcon from '../icons/ProductFilterIcon';
+import DesignFilterIcon from '../icons/DesignFilterIcon';
 
 interface FiltersProps {
     selectedCategory: string;
@@ -9,14 +10,33 @@ interface FiltersProps {
 }
 
 const Filters: React.FC<FiltersProps> = ({ selectedCategory, onFilterChange }) => {
+    // const [buttonColor, setButtonColor] = useState(true)
+    const [currentSelection, setCurrentSelection] = useState(selectedCategory);
     const handleFilterClick = (category: string) => {
         console.log(`Filter applied: ${category}`);
         if (selectedCategory == category) {
             onFilterChange('');
+            setCurrentSelection(''); 
         } else {
-            onFilterChange(category);      
+            onFilterChange(category);
+            setCurrentSelection(category); 
         }
     };
+
+    // const filterStyles = {
+    //     DESIGN: "bg-[#ff9cf5]",
+    //     PRODUCT: "bg-[#afbeff]",
+    //     DEV: "bg-[#bfadf4]",
+    //     TRENDING: "bg-[#fbabb6]",
+    //     MENTORSHIP: "bg-[#95f9ab]",
+    // };
+
+    // const getButtonStyle = (category: string) => {
+    //     return currentSelection === category
+    //         ? "rounded-[66px] border border-[#333333] px-8 py-[21px] flex gap-4 justify-center items-center relative h-10 bg-white" // Selected style
+    //         : `rounded-[66px] border border-[#333333] px-8 py-[21px] flex gap-4 justify-center items-center relative h-10 ${filterStyles[currentSelection]}`; // Default style
+    // };
+
     return (
         <div
             className="flex justify-between items-center relative w-[999px] bg-transparent">
@@ -39,7 +59,7 @@ const Filters: React.FC<FiltersProps> = ({ selectedCategory, onFilterChange }) =
             <button 
                 onClick={() => handleFilterClick('PRODUCT')}
                 className="rounded-[66px] border border-[#333333] px-8 py-[21px] flex gap-4 justify-center items-center relative w-[179px] h-10 bg-[#afbeff]">
-                    <ProductIcon/>
+                    <ProductFilterIcon/>
                     <h4 className="text-2xl text-[#333333]">Product</h4>
             </button>
             
