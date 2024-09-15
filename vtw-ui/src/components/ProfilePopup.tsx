@@ -13,7 +13,7 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ isOpen, onClose }) => {
             <div className="bg-[#F3FE74] rounded-lg p-8 w-[90%] max-w-2xl relative"> {/* Increased width by 30% */}
                 <button onClick={onClose} className="absolute top-4 right-4 text-2xl">X</button> {/* Close button */}
                 <div className="flex items-center mb-4">
-                    <img src="path/to/profilepic.png" alt="Profile" className="w-16 h-16 rounded-full mr-4" /> {/* Circular profile picture */}
+                    <img src="../assets/profilepic.png" alt="Profile" className="w-16 h-16 rounded-full mr-4" /> {/* Circular profile picture */}
                     <div>
                         <h2 className="text-2xl font-bold">User Name</h2> {/* User name */}
                         <p className="text-lg">Job Title</p> {/* Job title */}

@@ -10,7 +10,7 @@ import LeaderboardPopup from "../components/LeaderboardPopup";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import ProfilePopup from "../components/ProfilePopup"; // Import the ProfilePopup
 import tokenIcon from "../assets/token.png"; // Ensure this path is correct
-import profileImage from "../assets/token.png"; // Add your profile image path
+import profileImage from "../assets/profilepic.png"; // Add your profile image path
 
 const AppRoutes: React.FC = () => {
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
