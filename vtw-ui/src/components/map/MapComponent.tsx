@@ -15,18 +15,16 @@ const VANCOUVER_BOUNDS = [
   [-123.2339, 49.1974], // Southwest coordinates
   [-122.9981, 49.3168]  // Northeast coordinates
 ];
+interface MapComponentProps {
+    selectedCategory: string;
+  }
 
-const MapComponent = () => {
+const MapComponent: React.FC<MapComponentProps> = ({selectedCategory}) => {
   const [popupInfo, setPopupInfo] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('');
 
   const filteredEvents = selectedCategory
     ? mockEvents.filter(event => event.category === selectedCategory)
     : mockEvents;
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-  };
 
   return (
     <div style={{ width: '100%', height: '100vh' }}>
