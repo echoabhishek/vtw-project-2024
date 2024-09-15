@@ -13,7 +13,15 @@ const EventsList = ({ setPopupInfo, filteredEvents }) => {
           color={mockEventCategories[event.category].color}
           onClick={(e) => {
             e.originalEvent.stopPropagation();
-            setPopupInfo(event);
+            const localEvents = filteredEvents.filter(
+              (ev) =>
+                ev.coordinates[0] === event.coordinates[0] &&
+                ev.coordinates[1] === event.coordinates[1]
+            );
+            setPopupInfo({
+              coordinates: event.coordinates,
+              events: localEvents,
+            });
           }}
         />
       ))}
