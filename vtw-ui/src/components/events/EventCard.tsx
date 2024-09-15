@@ -1,22 +1,32 @@
 // EventCard.tsx
-const EventCard = ({ event, onClose }) => {
+import { useState } from 'react';
+import EventItem from './EventItem';
+import CloseCircleIcon from '../icons/CloseCircleIcon';
+
+const EventCard = ({ events, onClose }) => {
+  const [expandedEvents, setExpandedEvents] = useState({});
+
+  const toggleExpand = (eventId) => {
+    event.stopPropagation();
+    setExpandedEvents((prev) => ({
+      ...prev,
+      [eventId]: !prev[eventId],
+    }));
+  };
+
   return (
-    <div className="p-4 bg-white rounded-lg shadow-lg">
-      <h3 className="text-lg font-semibold">{event.name}</h3>
-      <p className="text-sm text-gray-500">Category: {event.category}</p>
-      <p className="text-sm text-gray-500">Location: {event.coordinates.join(', ')}</p>
-      <button
-        onClick={() => {/* Navigate to event page or handle button click */}}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
-      >
-        View Details
-      </button>
-      <button
-        onClick={onClose}
-        className="text-red-500 font-bold mt-2"
-      >
-        Close
-      </button>
+    <div className="p-4 bg-yellow-200 rounded-lg shadow-lg max-w-xs text-black relative">
+      <div className="absolute top-2 right-2 w-full flex justify-end">
+        <div className="cursor-pointer" onClick={onClose}>
+          <CloseCircleIcon iconClass="w-5 h-5" />
+        </div>
+      </div>
+
+      <div className="max-w-xs max-h-64 overflow-y-auto pr-2">
+        {events.map((event) => (
+          <EventItem event={event} expandedEvents={expandedEvents} toggleExpand={toggleExpand} />
+        ))}
+      </div>
     </div>
   );
 };

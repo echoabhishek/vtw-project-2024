@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Map, { Marker, Popup, NavigationControl } from 'react-map-gl';
+import Map, { Popup, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Filters from '../filters/Filters';
 import EventCard from '../events/EventCard';
-import { mockEventCategories, mockEvents } from '../../mock/events';
+import { mockEvents } from '../../mock/events';
 import EventsList from '../events/EventsList';
 
 // Replace with your actual Mapbox access token
@@ -49,9 +49,11 @@ const MapComponent = () => {
             longitude={popupInfo.coordinates[0]}
             latitude={popupInfo.coordinates[1]}
             anchor="bottom"
+            maxWidth="35vw"
+            closeButton={false}
             onClose={() => setPopupInfo(null)}
           >
-            <EventCard event={popupInfo} onClose={() => setPopupInfo(null)} />
+            <EventCard events={popupInfo.events} onClose={() => setPopupInfo(null)} />
           </Popup>
         )}
       </Map>
