@@ -23,8 +23,8 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy SSL certificates
-COPY /etc/letsencrypt/live/api-vanquest.abhishek.id/privkey.pem /etc/ssl/certs/server.crt
-COPY /etc/letsencrypt/live/api-vanquest.abhishek.id/fullchain.pem /etc/ssl/private/server.key
+COPY ssl/privkey.pem /etc/ssl/certs/server.crt
+COPY ssl/fullchain.pem /etc/ssl/private/server.key
 
 # Copy built app from the previous stage
 COPY --from=build /usr/src/app /usr/src/app
