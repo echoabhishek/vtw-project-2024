@@ -1,10 +1,15 @@
 // src/components/Banner.tsx
 
-import React, { useState } from 'react';
+import React from 'react';
 import SearchBar from '../search/SearchBar';
 import Filters from '../filters/Filters';
 
-const Banner: React.FC = ({selectedCategory, handleCategoryChange}) => {
+interface BannerProps {
+  selectedCategory: string;
+  handleCategoryChange: (category: string) => void
+}
+
+const Banner: React.FC<BannerProps> = ({selectedCategory, handleCategoryChange}) => {
 //   const [selectedFilter, setSelectedFilter] = useState('all');
 
   const handleSearch = (query: string) => {

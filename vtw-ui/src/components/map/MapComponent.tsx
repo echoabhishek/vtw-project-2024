@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Map, { Popup, NavigationControl } from 'react-map-gl';
+import Map, { Popup, NavigationControl, LngLatBoundsLike } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import Filters from '../filters/Filters';
 import EventCard from '../events/EventCard';
 import { mockEvents } from '../../mock/events';
 import EventsList from '../events/EventsList';
@@ -11,10 +10,11 @@ const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibmFtLW0iLCJhIjoiY20xMmllc3Z6MGQ3czJrcG14
 
 // Vancouver coordinates
 const VANCOUVER_CENTER = [-123.1207, 49.2827];
-const VANCOUVER_BOUNDS = [
-  [-123.2339, 49.1974], // Southwest coordinates
-  [-122.9981, 49.3168]  // Northeast coordinates
+const VANCOUVER_BOUNDS: LngLatBoundsLike = [
+  { lon: -123.2339, lat: 49.1974 }, // Southwest coordinates
+  { lon: -122.9981, lat: 49.3168 }, // Northeast coordinates
 ];
+
 interface MapComponentProps {
     selectedCategory: string;
   }

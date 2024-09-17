@@ -1,10 +1,12 @@
 // src/components/layout/DashboardLayout.tsx
 
-import React, { useState } from 'react';
+import React from 'react';
 import Banner from '../banner/Banner'; // Assuming Banner is in the components folder
 
 interface DashboardLayoutProps {
+  selectedCategory: string;
   children: React.ReactNode;
+  handleCategoryChange: (category: string) => void
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ selectedCategory, handleCategoryChange, children }) => {
