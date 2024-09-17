@@ -1,0 +1,20 @@
+version: '3'
+services:
+  strapi:
+    build: .
+    environment:
+      - DATABASE_CLIENT=sqlite
+      - DATABASE_FILENAME=/srv/data/strapi.db
+    volumes:
+      - ./app:/usr/src/app
+      - ./data:/srv/data
+    expose:
+      - 1337
+    command: npm run develop
+
+  nginx:
+    build: .
+    ports:
+      - '443:443'
+    depends_on:
+      - strapi
