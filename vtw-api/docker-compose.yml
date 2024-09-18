@@ -1,21 +1,36 @@
-version: '3'
+version: "3"
 services:
   strapi:
-    build: .
+    container_name: strapi
+    build:
+      context: .
+      dockerfile: Dockerfile.strapi
+    restart: unless-stopped
+    env_file: .env
     environment:
-      - DATABASE_CLIENT=sqlite
-      - DATABASE_FILENAME=/srv/data/strapi.db
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_FILENAME: ${DATABASE_FILENAME}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      APP_KEYS: ${APP_KEYS}
+      NODE_ENV: ${NODE_ENV}
     volumes:
-      - ./app:/usr/src/app
-      - ./data:/srv/data
-    expose:
-      - 1337
+      - ./config:/opt/app/config
+      - ./src:/opt/app/src
+      - ./package.json:/opt/package.json
+      - ./yarn.lock:/opt/yarn.lock
+      - ./.env:/opt/app/.env
+      - ./public/uploads:/opt/app/public/uploads
+    ports:
+      - "1337:1337"
     command: npm run develop
     networks:
       - vanquest-net
 
   nginx:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
     ports:
       - '443:443'
     volumes:
@@ -28,4 +43,5 @@ services:
 
 networks:
   vanquest-net:
+    name: VanquestNet
     driver: bridge
