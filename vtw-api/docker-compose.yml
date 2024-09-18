@@ -26,6 +26,6 @@ services:
     networks:
       - vanquest-net
 
-  networks:
-    vanquest-net:
-      driver: bridge
+networks:
+  vanquest-net:
+    driver: bridge
