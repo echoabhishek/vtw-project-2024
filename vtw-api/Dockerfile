@@ -22,10 +22,6 @@ RUN npm run build
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
 
-# Copy SSL certificates
-COPY ssl/privkey.pem /etc/ssl/certs/server.crt
-COPY ssl/fullchain.pem /etc/ssl/private/server.key
-
 # Copy built app from the previous stage
 COPY --from=build /usr/src/app /usr/src/app
 
