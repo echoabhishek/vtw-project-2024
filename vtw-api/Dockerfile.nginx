@@ -1,8 +1,5 @@
 FROM nginx:alpine
 
-# Copy built app from the previous stage
-COPY --from=build /usr/src/app /usr/src/app
-
 # Copy custom Nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
