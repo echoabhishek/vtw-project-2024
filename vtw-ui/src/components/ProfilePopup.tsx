@@ -10,9 +10,14 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="bg-[#F3FE74] rounded-lg p-8 w-[90%] max-w-2xl relative"> {/* Increased width by 30% */}
-                <button onClick={onClose} className="absolute top-4 right-4 text-2xl">X</button> {/* Close button */}
+                <button 
+                    onClick={onClose} 
+                    className="absolute top-4 right-4 text-2xl w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200"
+                >
+                    &times;
+                </button>
                 <div className="flex items-center mb-4">
                     <img 
                         src={profilePic} 
