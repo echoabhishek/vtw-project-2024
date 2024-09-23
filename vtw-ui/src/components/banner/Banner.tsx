@@ -1,5 +1,3 @@
-// src/components/Banner.tsx
-
 import React from 'react';
 import SearchBar from '../search/SearchBar';
 import Filters from '../filters/Filters';
@@ -10,28 +8,24 @@ interface BannerProps {
 }
 
 const Banner: React.FC<BannerProps> = ({selectedCategory, handleCategoryChange}) => {
-//   const [selectedFilter, setSelectedFilter] = useState('all');
-
   const handleSearch = (query: string) => {
     console.log("Search query:", query);
   };
 
-//   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-//     setSelectedFilter(e.target.value);
-//   };
-
   return (
-    // <div className="bg-white shadow-md py-4 px-8 mb-6">
-    <div className='border border-[#333333] bg-[#f3fe74]'>
-      <div className="flex justify-evenly items-center">
-        <h1 className="font-extrabold text-[55px] text-[#333333]">
-            [van]quest
+    <div className='border border-[#333333] bg-[#f3fe74] p-4'>
+      <div className="flex flex-col md:flex-row justify-between items-center">
+        <h1 className="font-extrabold text-3xl md:text-5xl text-[#333333] mb-4 md:mb-0">
+          [van]quest
         </h1>
-        <div className="flex flex-col items-end p-4 space-x-4 space-y-4">
-            <SearchBar onSearch={handleSearch}/>
+        <div className="w-full md:w-auto">
+          <SearchBar onSearch={handleSearch}/>
+          <div className="mt-4">
             <Filters 
-                selectedCategory={selectedCategory}
-                onFilterChange={handleCategoryChange}/>   
+              selectedCategory={selectedCategory}
+              onFilterChange={handleCategoryChange}
+            />   
+          </div>
         </div>
       </div>
     </div>
