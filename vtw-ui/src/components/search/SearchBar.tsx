@@ -16,13 +16,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="rounded-[66px] border border-[#333333] px-[23px] py-[17px] flex gap-4 items-center relative w-[999px] h-12 bg-[#fefefe]">
+    <div className="rounded-[66px] border border-[#333333] px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 flex gap-2 sm:gap-4 items-center relative w-full h-10 sm:h-12 bg-[#fefefe]">
       <SearchBarLookupIcon />
       <input
         type="text"
         value={searchQuery}
         onChange={handleSearch}
-        className="p-2 rounded w-full"
+        className="p-1 sm:p-2 rounded w-full text-sm sm:text-base"
         placeholder="Find a tech quest..."
       />
     </div>
